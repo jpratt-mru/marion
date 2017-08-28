@@ -64,8 +64,15 @@ Namespace Collections
                     Dim lineNumber As Integer = 1
                     For Each fileLine In fileLines
                         Try
-                            Dim newBarcodedThing As BarcodedThing = BarcodedThingFactory.createBarcodedThing(contextType, fileLine)
-                            Me.Add(newBarcodedThing.Barcode, newBarcodedThing)
+                            If (saveFileName = "borrowers.csv") Then
+                                Dim newBarcodedThing As BarcodedThing = BarcodedThingFactory.createBarcodedThing(contextType, Constants.BORROWER_PREFIX + Constants.PREFIX_SUFFIX_SEPARATOR + fileLine.Trim
+                                                                                                                 )
+                                Me.Add(newBarcodedThing.Barcode, newBarcodedThing)
+                            Else
+                                Dim newBarcodedThing As BarcodedThing = BarcodedThingFactory.createBarcodedThing(contextType, fileLine)
+                                Me.Add(newBarcodedThing.Barcode, newBarcodedThing)
+                            End If
+
                         Catch ex As Exception
                             errorMessages += saveFileName + " line number " + lineNumber.ToString + ":" + ex.Message + vbCrLf
                         End Try

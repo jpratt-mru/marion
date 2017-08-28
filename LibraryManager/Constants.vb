@@ -14,7 +14,7 @@
     Public Const GAME_PREFIX As String = "FCGC"
     Public Const BORROWER_PREFIX As String = "FCBC"
     Public Const MIN_NUMBER_DIGITS_IN_BORROWER_SUFFIX As Integer = 3
-    Public Const MAX_NUMBER_DIGITS_IN_BORROWER_SUFFIX As Integer = 8
+    Public Const MAX_NUMBER_DIGITS_IN_BORROWER_SUFFIX As Integer = 9
     Public Const MIN_NUMBER_DIGITS_IN_GAME_SUFFIX As Integer = 4
     Public Const MAX_NUMBER_DIGITS_IN_GAME_SUFFIX As Integer = 4
 
