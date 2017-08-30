@@ -105,7 +105,10 @@
         End Function
 
         Public Overrides Function ToFileString() As String
-            Return (Barcode.ToString + Constants.SPLIT_DELIMITER + FirstName + Constants.SPLIT_DELIMITER + LastName)
+            Dim eventBriteBarcode = Barcode.Suffix
+
+
+            Return (eventBriteBarcode + Constants.SPLIT_DELIMITER + FirstName + Constants.SPLIT_DELIMITER + LastName)
         End Function
 
         Public Overloads Overrides Function Equals(ByVal obj As Object) As Boolean

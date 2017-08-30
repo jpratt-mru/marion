@@ -65,6 +65,11 @@ Namespace Forms
 
 
         Public Function GetCodeTextBoxText() As String Implements IBorrowingFormActions.GetCodeTextBoxText
+            If (Not CodeTextBox.Text.ToUpper.Contains(Constants.PREFIX_SUFFIX_SEPARATOR) AndAlso IsNumeric(CodeTextBox.Text)) Then
+                Return Constants.BORROWER_PREFIX + Constants.PREFIX_SUFFIX_SEPARATOR + CodeTextBox.Text
+            End If
+
+
             Return CodeTextBox.Text
         End Function
 
@@ -77,6 +82,17 @@ Namespace Forms
             End If
 
         End Sub
+        Private Function IsGame(ByVal barcode As String) As Boolean
+            If Not barcode.Contains(Constants.PREFIX_SUFFIX_SEPARATOR) Then
+                Return False
+            End If
+            Dim separatorPosition As Integer = barcode.IndexOf(Constants.PREFIX_SUFFIX_SEPARATOR)
+            Return barcode.Substring(0, separatorPosition).Length = 2
+        End Function
+
+        Private Function IsBorrower(ByVal barcode As String) As Boolean
+            Return Not barcode.Contains(Constants.PREFIX_SUFFIX_SEPARATOR) AndAlso IsNumeric(barcode)
+        End Function
 
         Private Sub CodeTextBox_KeyUp (ByVal sender As Object, ByVal e As KeyEventArgs) Handles CodeTextBox.KeyUp
             If ((Keyboard.Modifiers = ModifierKeys.Control) And (e.Key = Key.R)) Then
@@ -84,10 +100,15 @@ Namespace Forms
                 RefocusOnTextBox()
             ElseIf e.Key = Key.Return Then
                 initialKeyHasBeenPressed = False
-                If _
-                    (CodeTextBox.Text.ToUpper.StartsWith(Constants.GAME_PREFIX) Or _
-                     CodeTextBox.Text.ToUpper.StartsWith(Constants.BORROWER_PREFIX)) Then
-                    Dim code As New SimpleBarcode(CodeTextBox.Text)
+                Dim barcodeText = CodeTextBox.Text.ToUpper
+
+                If (IsGame(barcodeText) Or IsBorrower(barcodeText)) Then
+
+                    If IsBorrower(barcodeText) Then
+                        barcodeText = Constants.BORROWER_PREFIX + Constants.PREFIX_SUFFIX_SEPARATOR + CodeTextBox.Text
+                    End If
+
+                    Dim code As New SimpleBarcode(barcodeText)
                     If (code.Category = Enums.BarcodeCategory.Unknown) Then
                         borrowingMachine.ReactToUnknownBarcode()
                     ElseIf (code.Category = Enums.BarcodeCategory.Borrower) Then

@@ -74,9 +74,13 @@
         End Function
 
         Private Function IsValidGameCode(ByVal barcodeString As String) As Boolean
-            Return HasValidPrefix(Constants.GAME_PREFIX) AndAlso _
-                   SuffixIsProperLength(Constants.MAX_NUMBER_DIGITS_IN_GAME_SUFFIX, Constants.MAX_NUMBER_DIGITS_IN_GAME_SUFFIX) AndAlso _
+            Return HasValidGamePrefix() AndAlso
+                   SuffixIsProperLength(Constants.MAX_NUMBER_DIGITS_IN_GAME_SUFFIX, Constants.MAX_NUMBER_DIGITS_IN_GAME_SUFFIX) AndAlso
                    SuffixIsNumeric()
+        End Function
+
+        Private Function HasValidGamePrefix() As Boolean
+            Return Me.Prefix.Length = 2
         End Function
 
         Private Function HasValidPrefix(ByVal validPrefix As String) As Boolean
@@ -84,7 +88,7 @@
         End Function
 
         Private Function SuffixIsProperLength(ByVal suffixMinLength As Integer, ByVal suffixMaxLength As Integer) As Boolean
-            Return (Me.Suffix.Length >= suffixMinLength) AndAlso (Me.Suffix.Length <= suffixMaxLength)
+            Return (Me.Suffix.Length >= suffixMinLength) ' AndAlso (Me.Suffix.Length <= suffixMaxLength)
         End Function
 
         Private Function SuffixIsNumeric() As Boolean
